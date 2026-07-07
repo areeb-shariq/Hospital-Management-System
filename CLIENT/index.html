@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediCore HMS</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+ 
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">MediCore</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle">&#9776;</button>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-section-label">Overview</div>
+      <a href="#" class="nav-item active" data-section="dashboard">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+
+      <div class="nav-section-label">Clinical</div>
+      <a href="#" class="nav-item" data-section="patients">
+        <span class="nav-icon">👤</span><span class="nav-label">Patients</span>
+      </a>
+      <a href="#" class="nav-item" data-section="doctors">
+        <span class="nav-icon">🩺</span><span class="nav-label">Doctors</span>
+      </a>
+      <a href="#" class="nav-item" data-section="nurses">
+        <span class="nav-icon">💉</span><span class="nav-label">Nurses</span>
+      </a>
+      <a href="#" class="nav-item" data-section="appointments">
+        <span class="nav-icon">📅</span><span class="nav-label">Appointments</span>
+      </a>
+      <a href="#" class="nav-item" data-section="admissions">
+        <span class="nav-icon">🏥</span><span class="nav-label">Admissions</span>
+      </a>
+      <a href="#" class="nav-item" data-section="medical_records">
+        <span class="nav-icon">📋</span><span class="nav-label">Medical Records</span>
+      </a>
+      <a href="#" class="nav-item" data-section="lab_tests">
+        <span class="nav-icon">🔬</span><span class="nav-label">Lab Tests</span>
+      </a>
+
+      <div class="nav-section-label">Facility</div>
+      <a href="#" class="nav-item" data-section="departments">
+        <span class="nav-icon">🏢</span><span class="nav-label">Departments</span>
+      </a>
+      <a href="#" class="nav-item" data-section="rooms">
+        <span class="nav-icon">🛏</span><span class="nav-label">Rooms</span>
+      </a>
+      <a href="#" class="nav-item" data-section="beds">
+        <span class="nav-icon">🪑</span><span class="nav-label">Beds</span>
+      </a>
+      <a href="#" class="nav-item" data-section="staff">
+        <span class="nav-icon">👥</span><span class="nav-label">Staff</span>
+      </a>
+      <a href="#" class="nav-item" data-section="attendance">
+        <span class="nav-icon">🕐</span><span class="nav-label">Attendance</span>
+      </a>
+
+      <div class="nav-section-label">Finance & Supply</div>
+      <a href="#" class="nav-item" data-section="bills">
+        <span class="nav-icon">🧾</span><span class="nav-label">Bills</span>
+      </a>
+      <a href="#" class="nav-item" data-section="payments">
+        <span class="nav-icon">💳</span><span class="nav-label">Payments</span>
+      </a>
+      <a href="#" class="nav-item" data-section="insurance_policies">
+        <span class="nav-icon">🛡</span><span class="nav-label">Insurance</span>
+      </a>
+      <a href="#" class="nav-item" data-section="medicines">
+        <span class="nav-icon">💊</span><span class="nav-label">Medicines</span>
+      </a>
+      <a href="#" class="nav-item" data-section="prescriptions">
+        <span class="nav-icon">📝</span><span class="nav-label">Prescriptions</span>
+      </a>
+      <a href="#" class="nav-item" data-section="suppliers">
+        <span class="nav-icon">🚚</span><span class="nav-label">Suppliers</span>
+      </a>
+    </nav>
+  </aside>
+
+  
+  <main class="main">
+    
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+        <span class="page-subtitle" id="pageSubtitle">Hospital analytics overview</span>
+      </div>
+      <div class="topbar-right">
+        <div class="search-wrap" id="searchWrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search records…"/>
+        </div>
+        <button class="btn btn-primary" id="addBtn" style="display:none">+ Add New</button>
+      </div>
+    </header>
+
+   
+    <div class="toast" id="toast"></div>
+
+    
+    <div id="dashboardPage" class="dashboard-page">
+
+      
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(59,130,246,0.15);color:#60a5fa">👤</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statPatients">—</div>
+            <div class="stat-label">Total Patients</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(16,185,129,0.15);color:#10b981">🩺</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statDoctors">—</div>
+            <div class="stat-label">Total Doctors</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(245,158,11,0.15);color:#f59e0b">🏥</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statAdmissions">—</div>
+            <div class="stat-label">Admissions</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(239,68,68,0.15);color:#f87171">📅</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statAppointments">—</div>
+            <div class="stat-label">Appointments</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(139,92,246,0.15);color:#a78bfa">💊</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statMedicines">—</div>
+            <div class="stat-label">Medicine Types</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(20,184,166,0.15);color:#2dd4bf">🧾</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statRevenue">—</div>
+            <div class="stat-label">Total Revenue (PKR)</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="chart-grid">
+        <div class="chart-card chart-lg">
+          <div class="chart-header">
+            <h3 class="chart-title">Appointment Status Distribution</h3>
+            <span class="chart-badge">Bar Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="appointmentBarChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Admission Status</h3>
+            <span class="chart-badge">Doughnut</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="admissionDoughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Bill Payment Status</h3>
+            <span class="chart-badge">Pie Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="billPieChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card chart-lg">
+          <div class="chart-header">
+            <h3 class="chart-title">Medicine Stock Levels</h3>
+            <span class="chart-badge">Bar Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="medicineBarChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="chart-grid">
+        <div class="chart-card chart-full">
+          <div class="chart-header">
+            <h3 class="chart-title">Payment Amounts Over Time</h3>
+            <span class="chart-badge">Line Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="paymentLineChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Doctors by Department</h3>
+            <span class="chart-badge">Doughnut</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="deptDoughnutChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Bed Availability</h3>
+            <span class="chart-badge">Pie Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="bedPieChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Lab Test Status</h3>
+            <span class="chart-badge">Doughnut</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="labDoughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="chart-grid">
+        <div class="chart-card chart-full">
+          <div class="chart-header">
+            <h3 class="chart-title">Bill Amounts — Total vs Discount vs Tax</h3>
+            <span class="chart-badge">Area Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="billAreaChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="chart-grid">
+        <div class="chart-card chart-lg">
+          <div class="chart-header">
+            <h3 class="chart-title">Staff Attendance Status</h3>
+            <span class="chart-badge">Bar Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="attendanceBarChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Insurance Policy Status</h3>
+            <span class="chart-badge">Pie Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="insurancePieChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end dashboardPage -->
+
+   
+    <div id="tablePage" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+      <div class="table-wrap">
+        <table class="data-table" id="dataTable">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState" style="display:none">
+          <div class="empty-icon">📭</div>
+          <p>No records found</p>
+        </div>
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <span>Loading…</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Add Record</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="cancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="modal-overlay" id="confirmOverlay">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 class="modal-title">Delete Record</h2>
+        <button class="modal-close" id="confirmClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-secondary);line-height:1.6">Are you sure you want to delete this record? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+        <button class="btn btn-danger" id="confirmDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
