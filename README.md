@@ -113,6 +113,26 @@ Screenshots of the application will be added soon.
 - Role-based access
 - More dashboard analytics
 
+## Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Patients
+![Patients](screenshots/patients.png)
+
+### Doctors
+![Doctors](screenshots/doctors.png)
+
+### Appointments
+![Appointments](screenshots/appointments.png)
+
+### Bills
+![Bills](screenshots/bills.png)
+
+### API Testing
+![API](screenshots/api.PNG)
+
 ## Author
 
 Areeb Shariq
